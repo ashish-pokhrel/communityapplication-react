@@ -6,10 +6,12 @@ import PostPage from './component/page/post/PostPage'
 import PostCommentPage from './component/page/postComment/PostCommentPage'
 import CategoryList from './component/admin/category/CategoryList'
 import { RequireAuth } from './component/security/RequireAuth'
+import { AuthProvider } from './component/security/useAuth'
 
 function App() {
   return (
     <>
+    <AuthProvider>
       <Routes>
           <Route path="/signin" element={<SignInPage/>}></Route>
           <Route path="/home" element={<RequireAuth><Homepage/> </RequireAuth>}></Route>
@@ -19,6 +21,7 @@ function App() {
           <Route path="/comment/:id?" element={<PostCommentPage/>}></Route>
           <Route path="/category" element={<CategoryList/>}></Route>
       </Routes>
+    </AuthProvider>
     </>
   )
 }

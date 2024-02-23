@@ -22,7 +22,6 @@ export async function postRequest(path: string, data: any): Promise<any> {
     const fullURL = api_url + path;
     const auth = 'Bearer';
     try {
-        debugger
         const response: AxiosResponse = await axios.post(fullURL, data, {
             headers: {
                 'Authorization': auth,
@@ -125,7 +124,6 @@ export async function postFileUploadRequest(path: string, data: any): Promise<an
         },
     };
     try {
-        debugger
         const response: AxiosResponse = await axios.post(fullURL, data, config);
         return response.data;
     } catch (error) {
