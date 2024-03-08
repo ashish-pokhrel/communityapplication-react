@@ -19,3 +19,10 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: 'dist' # Change this path based on your Vite build output directory
+    artifactName: 'vite-artifact'
+    publishLocation: 'Container'
+  displayName: 'Publish Build Artifacts'
