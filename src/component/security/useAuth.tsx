@@ -1,5 +1,6 @@
 import React, { ReactNode, useContext, useEffect } from "react";
 import { postRequest } from "../common/FetchApi";
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextProps {
   user: {
@@ -17,8 +18,13 @@ interface AuthContextProps {
 const AuthContext = React.createContext<AuthContextProps | null>(null);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState<any | null>(() => {
-    const storedUser = localStorage.getItem("user");
+    let storedUser = localStorage.getItem("user");
+    if(storedUser == "undefined")
+    {
+      storedUser = null;
+    }
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
@@ -27,6 +33,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     let result = await postRequest(path, user);
     setUser(result);
     localStorage.setItem("user", JSON.stringify(result));
+    if(user.isAuthenticated)
+    {
+      navigate('/');
+    }
   };
 
   const logout = () => {
@@ -35,7 +45,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    let storedUser = localStorage.getItem("user");
+    if(storedUser == "undefined")
+    {
+      storedUser = null;
+    }
     if (!user && storedUser) {
       setUser(JSON.parse(storedUser));
     }
